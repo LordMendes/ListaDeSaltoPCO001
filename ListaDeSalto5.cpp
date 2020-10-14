@@ -1,5 +1,7 @@
 #include<iostream>
 
+using namespace std;
+
 template<typename T>
 struct No{
     T info;
@@ -110,15 +112,15 @@ void mostraLista(Lista<T> L)
 {
     No<T>* aux;
     for(int i=0; i<3;i++){
-        printf("\n Nivel %i: ", i);
+        cout<<"\n Nivel"<<i;
         aux = L.inicio[i];
         if(aux==NULL) continue;
         while (aux->prox[i] != NULL)
         {
-            printf("%i <-> ", aux->chave);
+            cout<<" "<<aux->chave<<"|"<<aux->info<<" <-> ";
             aux = aux->prox[i];
         }
-        printf("%i -> NULL\n", aux->chave);
+        cout<<" "<<aux->chave<<"|"<<aux->info<<" -> NULL\n";
     }
 }
 template<typename T>
@@ -126,15 +128,15 @@ void mostraListaReversa(Lista<T> L)
 {
     No<T>* aux;
     for(int i=0; i<3;i++){
-        printf("\n Nivel %i: ", i);
+        cout<<"\n Nivel "<<i<<": ";
         aux = L.fim[i];
         if(aux==NULL) continue;
         while (aux->ant[i] != NULL)
         {
-            printf("%i <-> ", aux->chave);
+            cout<<aux->chave<<" <-> ";
             aux = aux->ant[i];
         }
-        printf("%i -> NULL\n", aux->chave);
+        cout<<aux->chave <<" -> NULL\n";
     }
 }
 template<typename T>
@@ -244,23 +246,54 @@ void printTamanhoLista(Lista<T>&L){
 
 }
 
+class Aluno{
+
+    char*  nome;
+    int idade;
+    public:
+
+    Aluno(){
+        this->nome = NULL;
+        this->idade = -1;
+    }
+    Aluno(char* nome, int idade){
+        this->nome = nome;
+        this->idade = idade;
+    }
+    void print(){
+        printf("\nNome: %s", nome);
+        printf("\nidade: %d", idade);
+    }
+
+    friend ostream& operator<< (ostream& os, Aluno &a)
+    {
+     os <<a.nome;
+     return os;
+    }
+};
 
 int main()
 {
-    Lista<int> L;
+    Aluno a1("Lucas1", 29);
+    Aluno a2("Lucas2", 29);
+    Aluno a3("Lucas3", 29);
+    Aluno a4("Lucas4", 29);
+    Aluno a5("Lucas5", 29);
+
+    Lista<Aluno> L;
     IniciaLista(L);
-    Insere(L, 1,0);
-    Insere(L, 5,0);
-    Insere(L, 20,1);
-    Insere(L, 40,1);
-    Insere(L,42,0);
-    printf("\nLista de tamnho: %i\n", L.tam);
-    printf("Antes");
+    Insere(L, 1,a1);
+    Insere(L, 5,a2);
+    Insere(L, 20,a3);
+    Insere(L, 40,a4);
+    Insere(L,42,a5);
+    printTamanhoLista(L);
+    printf("\nAntes");
     mostraLista(L);
     remove(L,40);
-    printf("Depois");
+    printf("\n\nDepois");
     mostraLista(L);
-    printf("Reverso:");
+    printf("\n\nReverso:");
     mostraListaReversa(L);//Pra conferir se os ponteiros do fim e ant estao funcionando
     printTamanhoLista(L);
     //if(busca(L,5)) printf("Achou\n");
